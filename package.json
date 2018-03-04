@@ -1,0 +1,19 @@
+{
+  "name": "hospitapi",
+  "version": "1.0.0",
+  "description": "Api Restfult for Hospitapp Application ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start-dev": "nodemon app.js"
+  },
+  "author": "Juanma Pérez",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.2",
+    "mongoose": "^5.0.8"
+  },
+  "devDependencies": {
+    "nodemon": "^1.17.1"
+  }
+}
