@@ -7,17 +7,21 @@ const User = require('../models/user');
 const bcrypt = require('bcryptjs');
 const salt = 10;
 
-//JWT
-const jwt = require('jsonwebtoken');
-
 //middleware Authentication
 const mdAuthentication = require('../middlewares/authentication')
 
 
 
 userRouter.get('/', (req, res, next)=>{
+    
+    let from = req.query.from || 0;
+    from = Number(from)
+
+    const elem = 10;
 
     User.find({}, 'name email img role')
+    .skip(from)
+    .limit(elem)
     .exec((err, users)=>{
         
         if(err){
@@ -27,11 +31,24 @@ userRouter.get('/', (req, res, next)=>{
                 errors: err
             })
         }
+        User.count({}, (err, count)=>{
+            
+            if(err){
+                return res.status(500).json({
+                    ok: false,
+                    message: 'Error getting users',
+                    errors: err
+                })
+            }
 
-        return res.status(200).json({
-            ok: true,
-            users: users
+            return res.status(200).json({
+                ok: true,
+                users: users,
+                total: count
+            })
+
         })
+       
     })  
 })
 
@@ -126,7 +143,7 @@ userRouter.delete('/:id', mdAuthentication.verifyToken, (req, res)=>{
             })
         }
 
-        if(!deletedUser ){
+        if(!deletedUser){
             return res.status(400).json({
                 ok: false,
                 message: 'Not user for id:' + id,

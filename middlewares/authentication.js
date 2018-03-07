@@ -3,9 +3,10 @@ const express = require('express')
 
 const SECRET = require('../config/config').Secret;
 
+const jwt = require('jsonwebtoken');
 
 // Middleware for verify token
-exports.verifyToken = function (req, res, nex){
+exports.verifyToken = function (req, res, next){
     
     const token = req.query.token;
 
@@ -21,7 +22,6 @@ exports.verifyToken = function (req, res, nex){
         // Decoded return data about the user who made the request
         // and we could use it to verify other things or know who created, deleted or updated whatever.
         req.user = decoded.user;
-
         return next();
     })
 }
