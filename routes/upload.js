@@ -61,10 +61,7 @@ uploadRouter.put('/:collection/:id', (req, res, next)=>{
 
         uploadByCollection(collection, id, customFilename, res)
        
-        // res.status(200).json({
-        //     ok: true,
-        //     message: 'File uploaded'
-        // });
+      
     });
 })
 
@@ -72,14 +69,23 @@ uploadRouter.put('/:collection/:id', (req, res, next)=>{
 function uploadByCollection(collection, id, filename, response) {
     switch(collection){
         case 'users': User.findById(id, (err, user)=>{
+            
+            if(! user){
+                res.status(400).json({
+                    ok:false,
+                    message: 'User not found'
+                })
+            }
+
             const oldPath = `uploads/users/${user.img}`; 
+            
             if ( fs.existsSync(oldPath) ) {
                 fs.unlink(oldPath)
             }
             user.img = filename;
 
             user.save((err, newUser)=>{
-                return res.status(200).json({
+                return response.status(200).json({
                     ok: true,
                     message: 'File uploaded',
                     user: newUser
@@ -87,7 +93,14 @@ function uploadByCollection(collection, id, filename, response) {
             })
         });
         break;
+
         case 'hospitals':Hospital.findById(id, (err, hospital)=>{
+            if(! hospital){
+                res.status(400).json({
+                    ok:false,
+                    message: 'Hospital not found'
+                })
+            }
             const oldPath = `uploads/hospitals/${hospital.img}`; 
             if ( fs.existsSync(oldPath) ) {
                 fs.unlink(oldPath)
@@ -95,7 +108,7 @@ function uploadByCollection(collection, id, filename, response) {
 
             hospital.img = filename;
             hospital.save((err, newHospital)=>{
-                return res.status(200).json({
+                return response.status(200).json({
                     ok: true,
                     message: 'File uploaded',
                     user: newHospital
@@ -104,16 +117,25 @@ function uploadByCollection(collection, id, filename, response) {
         });
         break;
         case 'doctors':Doctor.findById(id, (err, doctor)=>{
+
+            if(! doctor){
+                res.status(400).json({
+                    ok:false,
+                    message: 'Dospital not found'
+                })
+            }
+
             const oldPath = `uploads/doctors/${doctor.img}`; 
             if ( fs.existsSync(oldPath) ) {
                 fs.unlink(oldPath)
             }
+
             doctor.img = filename;
 
             doctor.save((err, newDoctor)=>{
                 newDoctor.password == 'Not Displayed';
-                
-                return res.status(200).json({
+
+                return response.status(200).json({
                     ok: true,
                     message: 'File uploaded',
                     user: newDoctor
