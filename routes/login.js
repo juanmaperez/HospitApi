@@ -62,8 +62,8 @@ loginRouter.post('/', (req, res)=>{
 loginRouter.post('/google', (req, res, next) =>{
     
     const client = new OAuth2Client(GOOGLE_ID, '');
-    const token = req.body.token || '';
-
+    // const token = req.body.token || '';
+    const token = req.headers.authorization;
 
     async function verify() {
         const ticket = await client.verifyIdToken({
@@ -78,7 +78,7 @@ loginRouter.post('/google', (req, res, next) =>{
         // If request specified a G Suite domain:
         //const domain = payload['hd'];
 
-        User.findByIdAndRemove({email: payload.email}, (err, user)=>{
+        User.findOne({email: payload.email}, (err, user)=>{
             if(err){
                 return res.status(500).json({
                     ok:false,
@@ -86,8 +86,8 @@ loginRouter.post('/google', (req, res, next) =>{
                     errors: err
                 })
             }
-            if(user){
-                if(!user.google){
+            if (user) {
+                if (!user.google){
                     return res.status(400).json({
                         ok:false,
                         message: "You should authenticate with google",
@@ -104,13 +104,15 @@ loginRouter.post('/google', (req, res, next) =>{
                         user: user
                     })
                 }
-            }else{
+            } else {
                 const user = new User();
 
                 user.name = payload.name;
                 user.email = payload.email;
                 user.password = '.';
                 user.img = payload.picture;
+                user.google = true;
+
 
                 user.save((err, user)=> {
                     if(err){

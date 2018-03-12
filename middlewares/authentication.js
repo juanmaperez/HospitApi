@@ -8,7 +8,8 @@ const jwt = require('jsonwebtoken');
 // Middleware for verify token
 exports.verifyToken = function (req, res, next){
     
-    const token = req.query.token;
+    // const token = req.query.token;
+    const token = req.headers.authorization;
 
     jwt.verify(token, SECRET, (err, decoded)=>{
         if(err){

@@ -52,7 +52,7 @@ userRouter.get('/', (req, res, next)=>{
     })  
 })
 
-userRouter.post('/', mdAuthentication.verifyToken, (req, res) => {
+userRouter.post('/', (req, res) => {
     
     const body = req.body;
 
