@@ -19,7 +19,7 @@ userRouter.get('/', (req, res, next)=>{
 
     const elem = 10;
 
-    User.find({}, 'name email img role')
+    User.find({}, 'name email img role google')
     .skip(from)
     .limit(elem)
     .exec((err, users)=>{
