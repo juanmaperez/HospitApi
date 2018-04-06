@@ -53,7 +53,8 @@ loginRouter.post('/', (req, res)=>{
         return res.status(200).json({
             ok: true,
             token: token,
-            user: user
+            user: user,
+            menu: serveMenu(user.role)
         })
     })
     
@@ -101,7 +102,8 @@ loginRouter.post('/google', (req, res, next) =>{
                     return res.status(200).json({
                         ok: true,
                         token: token,
-                        user: user
+                        user: user,
+                        menu: serveMenu(user.role)
                     })
                 }
             } else {
@@ -128,7 +130,8 @@ loginRouter.post('/google', (req, res, next) =>{
                     return res.status(200).json({
                         ok: true,
                         token: token,
-                        user: user
+                        user: user,
+                        menu: serveMenu(user.role),
                     })
 
                 })
@@ -144,5 +147,50 @@ loginRouter.post('/google', (req, res, next) =>{
           })
       });
 })
+
+function serveMenu(ROLE){
+    let menu = [
+    {
+        title: 'Principal',
+        icon: 'mdi mdi-gauge',
+        submenu: [{
+            title: 'dashboard',
+            url: '/dashboard'
+        },
+        {
+            title: 'Progress Bar',
+            url: '/progress'
+        },
+        {
+            title: 'Graphics',
+            url: '/graphics'
+        },
+        {
+            title: 'Promises',
+            url: '/promises'
+        },
+        {
+            title: 'Rxjs',
+            url: '/rxjs'
+        }]
+    },
+    {
+        title: 'Management',
+        icon: 'mdi mdi-folder-lock-open',
+        submenu: [
+                // { title: 'Users', url: '/users'},
+                { title: 'Hospitals', url: '/hospitals'},
+                { title: 'Doctors', url: '/doctors'}
+            ]
+        }
+    ];
+
+    if( ROLE === 'ADMIN_ROLE'){
+        menu[1].submenu.unshift({ title: 'Users', url: '/users' });
+    }
+
+    return menu;
+
+}
 
 module.exports = loginRouter;

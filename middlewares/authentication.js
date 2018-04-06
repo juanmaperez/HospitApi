@@ -26,3 +26,23 @@ exports.verifyToken = function (req, res, next){
         return next();
     })
 }
+
+// Middleware for verify that user has an Admin role 
+// or that you are updating your own user
+exports.verifyAdmin = function (req, res, next){
+
+    const user = req.user;
+    const id = req.params.id;
+
+    if(user.role === 'ADMIN_ROLE' || user._id === id) {
+        next();
+        return;
+    } else {
+        return res.status(401).json({
+            ok: false,
+            message: 'Unauthorized. Role not allowed',
+            errors: err,
+        })
+    }
+
+}

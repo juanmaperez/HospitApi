@@ -81,7 +81,7 @@ userRouter.post('/', (req, res) => {
     }) 
 })
 
-userRouter.put('/:id', mdAuthentication.verifyToken, (req, res)=>{
+userRouter.put('/:id', [mdAuthentication.verifyToken, mdAuthentication.verifyAdmin], (req, res)=>{
     
     const id = req.params.id;
     const body = req.body;
@@ -129,7 +129,7 @@ userRouter.put('/:id', mdAuthentication.verifyToken, (req, res)=>{
 });
 
 
-userRouter.delete('/:id', mdAuthentication.verifyToken, (req, res)=>{
+userRouter.delete('/:id', [mdAuthentication.verifyToken, mdAuthentication.verifyAdmin], (req, res)=>{
     
     const id = req.params.id;
     
