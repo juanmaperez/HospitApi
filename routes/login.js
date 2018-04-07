@@ -29,13 +29,14 @@ loginRouter.get('/token', mdAuthentication.verifyToken, (req, res) => {
         return res.status(200).json({
             ok: true,
             token: token,
-            pipas:'si'
+            message: 'Token updated'
         })
     }
 
     return res.status(200).json({
         ok: true,
         token: tokenSent,
+        message: 'Same token'
     })
 
    
