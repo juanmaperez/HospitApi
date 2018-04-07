@@ -15,7 +15,32 @@ const GOOGLE_SECRET = require('../config/config').GOOGLE_SECRET;
 // GOOGLE AUTH
 const { OAuth2Client } = require('google-auth-library');
 
+const mdAuthentication = require('../middlewares/authentication');
+
 const jwt = require('jsonwebtoken');
+
+loginRouter.get('/token', mdAuthentication.verifyToken, (req, res) => {
+    
+    const tokenSent = req.headers.authorization;
+    
+    if(tokenCloseToExpired(req.exp)){
+        const token = jwt.sign({ user: req.user}, SECRET, {expiresIn: 14400}); // 4 horas
+
+        return res.status(200).json({
+            ok: true,
+            token: token,
+            pipas:'si'
+        })
+    }
+
+    return res.status(200).json({
+        ok: true,
+        token: tokenSent,
+    })
+
+   
+})
+
 
 loginRouter.post('/', (req, res)=>{
     
@@ -147,6 +172,22 @@ loginRouter.post('/google', (req, res, next) =>{
           })
       });
 })
+
+function tokenCloseToExpired(expiresIn){
+
+    const dateTime = new Date();
+    const tokenExp = new Date(expiresIn);
+    
+    dateTime.getTime() + (1 * 60 * 60 * 1000)
+
+
+    if(tokenExp.getTime() > dateTime.getTime()){
+        return true
+    } else {
+        return false
+    }
+
+}
 
 function serveMenu(ROLE){
     let menu = [
