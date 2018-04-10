@@ -68,7 +68,7 @@ searchRouter.get('/all/:query', (req, res, next)=>{
 function searchHospitals( regex ){
     return new Promise((resolve, reject) => {
         Hospital.find({ name: regex})
-        .populate('_user', 'name email')
+        .populate('_user', 'name email img')
         .exec((err, result)=>{
             if (err) {
                 reject("Error finding Hospitals", err)
@@ -82,7 +82,7 @@ function searchHospitals( regex ){
 function searchDoctors( regex ){
     return new Promise((resolve, reject) => {
         Doctor.find({ name: regex})
-        .populate('_user', 'name email')
+        .populate('_user', 'name email img')
         .populate('_hospital')
         .exec((err, result)=>{
             if (err) {
@@ -96,7 +96,7 @@ function searchDoctors( regex ){
 
 function searchUser( regex ){
     return new Promise((resolve, reject)=>{
-        User.find({}, 'name email role')
+        User.find({}, 'name email role img')
             .or([{ 'name': regex}, { 'email': regex}])
             .exec((err, result)=>{
                 if (err) {
