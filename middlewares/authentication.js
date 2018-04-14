@@ -22,7 +22,7 @@ exports.verifyToken = function (req, res, next){
 
         // Decoded return data about the user who made the request
         // and we could use it to verify other things or know who created, deleted or updated whatever.
-        console.log('decoded', decoded)
+        // console.log('decoded', decoded)
         req.user = decoded.user;
         req.exp = decoded.exp;
         return next();

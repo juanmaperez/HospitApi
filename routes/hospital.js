@@ -21,8 +21,7 @@ hospitalRouter.get('/', ( req, res, next ) => {
     .limit(elem)
     .populate('_user', 'name email')
     .exec((err, hospitals)=>{
-        console.log(from)
-
+        // console.log(from)
         if(err){
             return res.status(500).json({
                 ok: true,

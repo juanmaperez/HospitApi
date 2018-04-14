@@ -208,6 +208,10 @@ function serveMenu(ROLE){
             url: '/graphics'
         },
         {
+            title: 'Maps',
+            url: '/maps'
+        },
+        {
             title: 'Promises',
             url: '/promises'
         },
