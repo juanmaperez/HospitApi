@@ -212,6 +212,22 @@ function serveMenu(ROLE){
             url: '/maps'
         },
         {
+            title: 'Template Driven Forms',
+            url: '/template-driven-forms'
+        },
+        {
+            title: 'Reactive Forms',
+            url: '/reactive-forms'
+        },
+        {
+            title: 'Animations',
+            url: '/animations'
+        },
+        {
+            title: 'Maps',
+            url: '/maps'
+        },
+        {
             title: 'Promises',
             url: '/promises'
         },
