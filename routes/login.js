@@ -224,8 +224,8 @@ function serveMenu(ROLE){
             url: '/animations'
         },
         {
-            title: 'Maps',
-            url: '/maps'
+            title: 'Directives',
+            url: '/directives'
         },
         {
             title: 'Promises',
